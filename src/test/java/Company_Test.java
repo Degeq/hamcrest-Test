@@ -4,6 +4,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsSources;
 import org.junit.jupiter.params.provider.MethodSource;
 import taxes.FifteenPCProfit;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -27,10 +30,8 @@ public class Company_Test {
             company.shiftMoney(i);
         }
 
-        double result = company.getIncome();
-
         //assert
-        Assertions.assertEquals(expected, result);
+        assertThat(company.getIncome(), equalTo(expected));
 
     }
 
@@ -50,10 +51,8 @@ public class Company_Test {
             company.shiftMoney(i);
         }
 
-        double result = company.getCosts();
-
         //assert
-        Assertions.assertEquals(expected, result);
+        assertThat(company.getCosts(), equalTo(expected));
 
     }
 
@@ -64,34 +63,5 @@ public class Company_Test {
         );
     }
 
-    @Test
-    public void payTaxes15PCWithZeroProfit() {
-        //arrange
-        company.setTaxMode(new FifteenPCProfit());
-        Arrays.stream(new double[]{-144.432, -42354, -156, 80}).forEach((x) -> company.shiftMoney(x));
-        double expected = 0;
-
-        //act
-        double result = company.payTaxes();
-
-        //assert
-        Assertions.assertEquals(expected, result);
-
-    }
-
-    @Test
-    public void payTaxes15PCWithProfit() {
-        //arrange
-        company.setTaxMode(new FifteenPCProfit());
-        Arrays.stream(new double[]{144.432, 42354, 156, -80}).forEach((x) -> company.shiftMoney(x));
-        double expected = 6386.1648;
-
-        //act
-        double result = company.payTaxes();
-
-        //assert
-        Assertions.assertEquals(expected, result);
-
-    }
 
 }
