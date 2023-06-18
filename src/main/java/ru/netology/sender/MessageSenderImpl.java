@@ -21,7 +21,10 @@ public class MessageSenderImpl implements MessageSender {
 
     public String send(Map<String, String> headers) {
         String ipAddress = String.valueOf(headers.get(IP_ADDRESS_HEADER));
-        if (ipAddress != null && !ipAddress.isEmpty()) {
+        if (ipAddress == null) {
+            System.out.println("true");
+        }
+        if (ipAddress.equals(null) && !ipAddress.isEmpty()) {
             Location location = geoService.byIp(ipAddress);
             System.out.printf("Отправлено сообщение: %s", localizationService.locale(location.getCountry()));
             return localizationService.locale(location.getCountry());
